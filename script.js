@@ -32,8 +32,6 @@ class UniversalTranslator {
         this.elements.swapLanguages.addEventListener('click', () => this.swapLanguages());
         this.elements.clearInput.addEventListener('click', () => this.clearInput());
         this.elements.copyOutput.addEventListener('click', () => this.copyToClipboard());
-
-        // Initialize character count
         this.updateCharCount();
     }
 
@@ -77,7 +75,6 @@ class UniversalTranslator {
     }
 
     async performTranslation(text, sourceLang, targetLang) {
-        // Using MyMemory API as a free alternative to Google Translate API
         const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang === 'auto' ? 'en' : sourceLang}|${targetLang}`;
         
         try {
@@ -90,7 +87,6 @@ class UniversalTranslator {
                 throw new Error('Translation API error');
             }
         } catch (error) {
-            // Fallback: Return a mock translation for demonstration
             return this.getMockTranslation(text, targetLang);
         }
     }
@@ -126,7 +122,6 @@ class UniversalTranslator {
             this.elements.sourceLanguage.value = targetLang;
             this.elements.targetLanguage.value = sourceLang;
             
-            // Swap text content
             const inputText = this.elements.inputText.value;
             const outputText = this.elements.outputText.textContent;
             
@@ -166,7 +161,6 @@ class UniversalTranslator {
             await navigator.clipboard.writeText(outputText);
             this.showToast('Translation copied to clipboard!');
         } catch (error) {
-            // Fallback for older browsers
             const textArea = document.createElement('textarea');
             textArea.value = outputText;
             document.body.appendChild(textArea);
@@ -199,7 +193,6 @@ class UniversalTranslator {
     }
 
     showToast(message, type = 'success') {
-        // Set toast color based on type
         this.elements.toast.classList.remove('bg-green-500', 'bg-red-500');
         if (type === 'error') {
             this.elements.toast.classList.add('bg-red-500');
@@ -214,7 +207,6 @@ class UniversalTranslator {
     }
 }
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new UniversalTranslator();
 });
